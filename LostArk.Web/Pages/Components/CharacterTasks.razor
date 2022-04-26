@@ -1,0 +1,36 @@
+﻿@inherits CharacterTasksBase
+
+<section class="bg-white dark:bg-gray-900">
+    <div class="container px-6 py-10 mx-auto scale-2">
+        <h1 class="text-3xl font-semibold text-gray-800 capitalize lg:text-4xl">Character Tasks</h1>
+                
+        <p class="mt-4 text-gray-500 xl:mt-6 dark:text-gray-500">
+            Overview of daily and weekly tasks for each character
+        </p>
+                
+        @foreach (var character in Characters) {
+            <div class="grid grid-cols-1 gap-8 mt-4 xl:mt-12 xl:gap-12 md:grid-cols-1 xl:grid-cols-1">
+                <div class="p-8 space-y-3 border-2 border-blue-400 dark:border-blue-300 rounded-xl">
+                    <div style="display:flex;">
+                        <h1 class="text-2xl font-semibold text-gray-700 capitalize mr-8 mw-150">@character.Name</h1>
+
+                        @foreach (var characterTaskGroup in character.CharacterTasks.GroupBy(x => x.CharacterTaskTypeId)) {
+                            <div class="h-full flex items-start">
+                                <div class="flex-grow pl-6">
+                                    <h1 class="title-font text-xl font-medium text-gray-900 mb-3">@GetCharacterTaskTypeName(characterTaskGroup)</h1>
+
+                                    @foreach (var task in characterTaskGroup)
+                                    {
+                                        <button class="inline-flex p-3 mr-2 transition-colors duration-200 transform rounded-full border-2 border-blue-300 @(task.IsCompleted ? "bg-blue-500" : "")" @onclick="(() => CompleteCharacterTask(task))"></button>
+                                    }
+                                </div>
+                            </div>
+                        }
+
+                    </div>
+                </div>
+            </div>
+        }
+
+    </div>
+</section>
